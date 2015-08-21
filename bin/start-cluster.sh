@@ -21,7 +21,7 @@ CLEAN_DOCKER_HOST=$(echo "${DOCKER_HOST}" | cut -d'/' -f3 | cut -d':' -f1)
 CLEAN_DOCKER_HOST=${CLEAN_DOCKER_HOST:-localhost}
 DOCKER_RIAK_CS_CLUSTER_SIZE=${DOCKER_RIAK_CS_CLUSTER_SIZE:-5}
 
-if docker ps -a | egrep "hectcastro/riak" >/dev/null; then
+if docker ps -a | egrep "dragonfax/riak" >/dev/null; then
   echo
   echo "It looks like you already have some Riak containers running."
   echo "Please take them down before attempting to bring up another"
@@ -46,11 +46,11 @@ do
     docker run -e "DOCKER_RIAK_CS_CLUSTER_SIZE=${DOCKER_RIAK_CS_CLUSTER_SIZE}" \
                -e "DOCKER_RIAK_CS_AUTOMATIC_CLUSTERING=${DOCKER_RIAK_CS_AUTOMATIC_CLUSTERING}" \
                -P --name "riak-cs${index}" --link "riak-cs01:seed" \
-               -d hectcastro/riak-cs > /dev/null 2>&1
+               -d dragonfax/riak-cs > /dev/null 2>&1
   else
     docker run -e "DOCKER_RIAK_CS_CLUSTER_SIZE=${DOCKER_RIAK_CS_CLUSTER_SIZE}" \
                -e "DOCKER_RIAK_CS_AUTOMATIC_CLUSTERING=${DOCKER_RIAK_CS_AUTOMATIC_CLUSTERING}" \
-               -P --name "riak-cs${index}" -d hectcastro/riak-cs > /dev/null 2>&1
+               -P --name "riak-cs${index}" -d dragonfax/riak-cs > /dev/null 2>&1
   fi
 
   CONTAINER_ID=$(docker ps | egrep "riak-cs${index}[^/]" | cut -d" " -f1)
@@ -114,11 +114,11 @@ if [ -f $INSECURE_KEY_FILE ]; then
   echo "  Riak CS credentials:"
   echo
 
-  for field in admin_key admin_secret ; do
+  for field in admin.key admin.secret ; do
     echo -n "    ${field}: "
 
     ssh -i "${INSECURE_KEY_FILE}" -o "LogLevel=quiet" -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" \
-        -p "${CS01_PORT}" "root@${CLEAN_DOCKER_HOST}" egrep "${field}" /etc/riak-cs/app.config | cut -d'"' -f2
+        -p "${CS01_PORT}" "root@${CLEAN_DOCKER_HOST}" egrep "${field}" /etc/riak-cs/riak-cs.conf | cut -d'"' -f2
   done
 fi
 

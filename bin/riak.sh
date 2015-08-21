@@ -10,8 +10,7 @@ chmod 755 /var/lib/riak /var/log/riak
 ulimit -n 4096
 
 # Ensure the Erlang node name is set correctly
-sed -i.bak "s/127.0.0.1/${IP_ADDRESS}/" /etc/riak/vm.args
+sed -i.bak "s/127.0.0.1/${IP_ADDRESS}/" /etc/riak/riak.conf
 
 # Start Riak
-exec /sbin/setuser riak "$(ls -d /usr/lib/riak/erts*)/bin/run_erl" "/tmp/riak" \
-   "/var/log/riak" "exec /usr/sbin/riak console"
+exec /sbin/setuser riak riak start
