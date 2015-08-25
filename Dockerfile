@@ -64,6 +64,7 @@ ADD bin/seed-member-join.sh /etc/service/serf/
 ADD etc/riak.conf /etc/riak/riak.conf
 ADD etc/riak-cs.conf /etc/riak-cs/riak-cs.conf
 ADD etc/riak-app.config /etc/riak/app.config
+ADD etc/riak-cs-advanced.config /etc/riak-cs/advanced.config
 
 # Make the Riak, Riak CS, and Stanchion log directories into volumes
 VOLUME /var/lib/riak
