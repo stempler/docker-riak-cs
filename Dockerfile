@@ -87,5 +87,12 @@ RUN rm "/riak_${RIAK_VERSION}-1_amd64.deb" && \
     rm "/${SERF_VERSION}_linux_amd64.zip"
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+# Create the Riak CS User.
+#
+# requires starting riak-cs.
+# all in one line so it gets cached as a whole.
+# necessary as docker can't cache running background processes.
+RUN riak start && stanchion start && riak-cs start && (curl -X POST http://127.0.0.1:8080/riak-cs/user -H 'Content-Type: application/json' --data '{"email":"foobar@example.com", "name":"foo bar"}'  > /CREDENTIALS ) && (riak-cs stop; stanchion stop; riak stop)
+
 # Leverage the baseimage-docker init system
 CMD "/bin/startup.sh"
