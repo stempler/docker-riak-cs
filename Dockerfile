@@ -59,6 +59,7 @@ RUN mkdir -p /etc/service/serf && \
 ADD bin/serf.sh /etc/service/serf/run
 ADD bin/peer-member-join.sh /etc/service/serf/
 ADD bin/seed-member-join.sh /etc/service/serf/
+ADD bin/startup.sh /bin/startup.sh
 
 # Tune Riak and Riak CS configuration settings for the container
 ADD etc/riak.conf /etc/riak/riak.conf
@@ -87,4 +88,4 @@ RUN rm "/riak_${RIAK_VERSION}-1_amd64.deb" && \
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Leverage the baseimage-docker init system
-CMD ["/sbin/my_init", "--quiet"]
+CMD "/bin/startup.sh"
