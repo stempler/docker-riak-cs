@@ -38,12 +38,6 @@ ADD etc/riak-cs.conf /etc/riak-cs/riak-cs.conf
 ADD etc/riak-advanced.config /etc/riak/advanced.config
 ADD etc/riak-cs-advanced.config /etc/riak-cs/advanced.config
 
-# Make the Riak, Riak CS, and Stanchion log directories into volumes
-VOLUME /var/lib/riak
-VOLUME /var/log/riak
-VOLUME /var/log/riak-cs
-VOLUME /var/log/stanchion
-
 # Open the HTTP port for Riak and Riak CS (S3)
 EXPOSE 8098 8080 22
 
