@@ -1,0 +1,12 @@
+#
+# Simple setup for cluster with single node.
+#
+
+riakcs:
+  image: hectcastro/riak-cs
+  # build: .
+  ports:
+    - "4567:8080"
+  environment:
+    DOCKER_RIAK_CS_CLUSTER_SIZE: "1"
+    DOCKER_RIAK_CS_AUTOMATIC_CLUSTERING: "false"
